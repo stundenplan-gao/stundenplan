@@ -7,13 +7,13 @@
 
 	<persistence-unit name="stundenplan">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<class>org.jgrosshardt.jpa.database.Fach</class>
-		<class>org.jgrosshardt.jpa.database.Kurs</class>
-		<class>org.jgrosshardt.jpa.database.Lehrer</class>
-		<class>org.jgrosshardt.jpa.database.Schueler</class>
-		<class>org.jgrosshardt.jpa.database.Stufe</class>
-		<class>org.jgrosshardt.jpa.database.Stunde</class>
-		<class>org.jgrosshardt.jpa.database.Unbestaetigt</class>
+		<class>org.stundenplan_gao.jpa.database.Fach</class>
+		<class>org.stundenplan_gao.jpa.database.Kurs</class>
+		<class>org.stundenplan_gao.jpa.database.Lehrer</class>
+		<class>org.stundenplan_gao.jpa.database.Schueler</class>
+		<class>org.stundenplan_gao.jpa.database.Stufe</class>
+		<class>org.stundenplan_gao.jpa.database.Stunde</class>
+		<class>org.stundenplan_gao.jpa.database.Unbestaetigt</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver" />
@@ -36,13 +36,13 @@
 
 	<persistence-unit name="stundenplan-test">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<class>org.jgrosshardt.jpa.database.Fach</class>
-		<class>org.jgrosshardt.jpa.database.Kurs</class>
-		<class>org.jgrosshardt.jpa.database.Lehrer</class>
-		<class>org.jgrosshardt.jpa.database.Schueler</class>
-		<class>org.jgrosshardt.jpa.database.Stufe</class>
-		<class>org.jgrosshardt.jpa.database.Stunde</class>
-		<class>org.jgrosshardt.jpa.database.Unbestaetigt</class>
+		<class>org.stundenplan_gao.jpa.database.Fach</class>
+		<class>org.stundenplan_gao.jpa.database.Kurs</class>
+		<class>org.stundenplan_gao.jpa.database.Lehrer</class>
+		<class>org.stundenplan_gao.jpa.database.Schueler</class>
+		<class>org.stundenplan_gao.jpa.database.Stufe</class>
+		<class>org.stundenplan_gao.jpa.database.Stunde</class>
+		<class>org.stundenplan_gao.jpa.database.Unbestaetigt</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver" />
