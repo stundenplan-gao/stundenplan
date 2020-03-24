@@ -5,12 +5,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.stundenplan_gao.jpa.Query;
-import org.stundenplan_gao.jpa.database.Fach;
-import org.stundenplan_gao.jpa.database.NeuerNutzer;
-import org.stundenplan_gao.jpa.database.Schueler;
-import org.stundenplan_gao.jpa.database.Unbestaetigt;
+import org.stundenplan_gao.jpa.database.*;
 import org.stundenplan_gao.rest.JWTFilter.JWT;
 import org.stundenplan_gao.rest.JWTFilter.JWTTokenNeeded;
+import org.stundenplan_gao.rest.JWTFilter.JWTUserAuthNeeded;
 
 import java.util.List;
 
@@ -96,14 +94,29 @@ public class StundenplanSchuelerService {
     @Path("/register")
     @Consumes({MediaType.APPLICATION_JSON})
     public Response registerUser(NeuerNutzer nutzer) {
+        if (!nutzer.getBenutzername().endsWith("@gao-online.de")) {
+            return Response.status(420, "Invalid email address!").build();
+        }
+        if (query.usernameTaken(nutzer.getBenutzername())) {
+            return Response.status(422, "Username already taken!").build();
+        }
         if (confirmationRequired) {
             Unbestaetigt user = new Unbestaetigt(nutzer);
             query.persist(user);
         } else {
-            Schueler schueler = new Schueler(nutzer);
+            Stufe empty = query.getNullStufe();
+            Schueler schueler = new Schueler(nutzer, empty);
             query.persist(schueler);
         }
         return null;
+    }
+
+    @DELETE
+    @Path("/delete/${username}")
+    @JWTUserAuthNeeded
+    public Response deleteUser(@PathParam("username") String username) {
+        query.deleteUser("username");
+        return Response.status(200, "User no longer exists!").build();
     }
 
     /**
@@ -131,7 +144,7 @@ public class StundenplanSchuelerService {
     }
 
     @GET
-    @Path("/schueler-mit-faechern/${benutzername}")
+    @Path("/schuelerdaten/${benutzername}")
     @Produces({ MediaType.APPLICATION_JSON })
     @JWTTokenNeeded
     public Schueler getSchuelerMitFaechern(@PathParam("benutzername") String benutzername) {

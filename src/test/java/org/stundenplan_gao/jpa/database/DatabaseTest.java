@@ -75,7 +75,7 @@ public class DatabaseTest {
         Schueler s = new Schueler();
         s.setVorname("Justus");
         s.setNachname("Groß-Hardt");
-        s.setBenutzername("stundenplan_gao");
+        s.setBenutzername("jgrosshardt");
         String salt = PasswordHash.generateSalt();
         s.setPasswortHash(PasswordHash.computeHash("12345", salt));
         s.setSalt(salt);

@@ -46,12 +46,13 @@ public class Schueler {
         this.nachname = nachname;
     }
 
-    public Schueler(NeuerNutzer nutzer) {
+    public Schueler(NeuerNutzer nutzer, Stufe empty) {
         this.vorname = nutzer.getVorname();
         this.nachname = nutzer.getNachname();
         this.benutzername = nutzer.getBenutzername();
         this.salt = PasswordHash.generateSalt();
         this.passwortHash = PasswordHash.computeHash(nutzer.getPasswort(), salt);
+        this.stufe = empty;
     }
 
     public Integer getId() {
