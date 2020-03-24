@@ -1,10 +1,12 @@
 package org.jgrosshardt.jpa;
-
 import org.jgrosshardt.jpa.database.Fach;
 import org.jgrosshardt.jpa.database.Schueler;
-import org.jgrosshardt.jpa.database.Unbestaetigt;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -24,12 +26,11 @@ public class Query {
         entityManager.close();
     }
 
-    public <T> List<T> query(String qlString, Class<T> resultClass) {
-        TypedQuery<T> query = entityManager.createQuery(qlString, resultClass);
+    public <T> List<T> query(String queryString, Class<T> resultClass) {
+        TypedQuery<T> query = entityManager.createQuery(queryString, resultClass);
         return query.getResultList();
     }
 
-    //stores an object to the database
     public void persist(Object obj) {
         entityManager.getTransaction().begin();
         entityManager.persist(obj);
@@ -39,8 +40,8 @@ public class Query {
     public static void main(String[] args) {
         setup();
         Query q = new Query();
-        List<Schueler> list = q.query("select s from Schueler s", Schueler.class);
-        System.out.println(list.get(0));
+        List<Fach> list = q.query("select f from Fach f", Fach.class);
+        System.out.println(list.get(1));
         shutdown();
     }
 
@@ -53,25 +54,5 @@ public class Query {
             return null;
         }
         return schueler.get(0);
-    }
-
-    public boolean usernameTaken(String benutzername) {
-        List<Schueler> schueler = query(
-                "select s from Schueler s where s.benutzername = '" + benutzername.replace("'", "''") + "'",
-                Schueler.class);
-        List<Unbestaetigt> unconfirmed = query(
-                "select s from Unbestaetigt u where u.benutzername = '" + benutzername.replace("'", "''") + "'",
-                Unbestaetigt.class);
-        return schueler.size() + unconfirmed.size() >= 1;
-    }
-
-    public Unbestaetigt getUnbestaetigt(String benutzername) {
-        List<Unbestaetigt> user = query(
-                "select s from Unbestaetigt u where u.benutzername = '" + benutzername.replace("'", "''") + "'",
-                Unbestaetigt.class);
-        if (user.size() != 1) {
-            return null;
-        }
-        return user.get(0);
     }
 }

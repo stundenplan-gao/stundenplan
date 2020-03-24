@@ -11,7 +11,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.jgrosshardt.jpa.database.Fach;
-import org.jgrosshardt.jpa.database.NeuerNutzer;
 import org.jgrosshardt.jpa.database.Schueler;
 
 @Path("/schueler")
@@ -40,10 +39,6 @@ public interface StundenplanAPI {
     @Consumes({ MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON })
     public String authenticateUser(@QueryParam("username") String username,
             @QueryParam("password") String password);
-    @POST
-    @Path("/register")
-    @Consumes({MediaType.APPLICATION_JSON})
-    public Response registerUser(NeuerNutzer nutzer);
 
     @GET
     @Path("/faecherauswahl")

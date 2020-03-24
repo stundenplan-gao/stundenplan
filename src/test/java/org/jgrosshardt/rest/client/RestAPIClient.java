@@ -28,8 +28,6 @@ public class RestAPIClient {
     private static final int port = 8080;
 
     private Client client;
-
-    private StundenplanClient stundenplanClient;
     
     private Response response;
 
@@ -103,7 +101,7 @@ public class RestAPIClient {
         // login
         Map<String, String> formParams = new HashMap<>();
         formParams.put("username", "ysprenger");
-        formParams.put("password", "ysprenger");
+        formParams.put("password", "abc123");
 
         response = withTarget("login", target -> target).request().header(HttpHeaders.AUTHORIZATION, "").post(Entity.json(formParams));
 
@@ -118,11 +116,5 @@ public class RestAPIClient {
         assertEquals("Expected names of message does not match", testMsg, response.readEntity(String.class));
 
         response.close();
-    }
-
-    @Test
-    public void testUserRegistration() {
-        stundenplanClient = new StundenplanClient("", "".toCharArray());
-
     }
 }

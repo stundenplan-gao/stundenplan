@@ -4,7 +4,6 @@ import org.jgrosshardt.rest.server.PasswordHash;
 
 import javax.persistence.*;
 import java.util.Objects;
-import java.util.Random;
 
 @Entity
 @Table(name = "unbestaetigter_nutzer")
@@ -42,10 +41,6 @@ public class Unbestaetigt {
         this.benutzername = nutzer.getBenutzername();
         this.salt = PasswordHash.generateSalt();
         this.passwortHash = PasswordHash.computeHash(nutzer.getPasswort(), salt);
-        Random random = new Random();
-        int token = random.nextInt(1_000_000);
-        int number = 123;
-        this.bestaetigungs_schluessel = String.format ("%06d", number);
     }
 
     public Integer getId() {

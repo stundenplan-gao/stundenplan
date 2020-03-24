@@ -1,7 +1,8 @@
 package org.jgrosshardt.rest.server;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.jgrosshardt.jpa.Query;
 import org.jgrosshardt.jpa.database.Fach;
@@ -11,9 +12,7 @@ import org.jgrosshardt.jpa.database.Unbestaetigt;
 import org.jgrosshardt.rest.JWTFilter.JWT;
 import org.jgrosshardt.rest.JWTFilter.JWTTokenNeeded;
 
-import java.lang.annotation.Annotation;
-import java.net.URI;
-import java.util.*;
+import java.util.List;
 
 @Path("/schueler")
 public class StundenplanSchuelerService {
@@ -97,33 +96,14 @@ public class StundenplanSchuelerService {
     @Path("/register")
     @Consumes({MediaType.APPLICATION_JSON})
     public Response registerUser(NeuerNutzer nutzer) {
-        if (!nutzer.getBenutzername().endsWith("@gao-online.de")) {
-            return Response.status(420, "Invalid email address!").build();
-        }
-        if (query.usernameTaken(nutzer.getBenutzername())) {
-            return Response.status(422, "Username already taken!").build();
-        }
         if (confirmationRequired) {
             Unbestaetigt user = new Unbestaetigt(nutzer);
-            Email.sendConfirmationEmail(user.getBenutzername(), user.getBestaetigungs_schluessel());
             query.persist(user);
-            return Response.status(200, "User created, but needs to be activated!").build();
+        } else {
+            Schueler schueler = new Schueler(nutzer);
+            query.persist(schueler);
         }
-        Schueler schueler = new Schueler(nutzer);
-        query.persist(schueler);
-
-        return Response.status(200, "User successfully created!").build();
-    }
-
-    @POST
-    @Path("/confirmuser")
-    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
-    public Response confirmUser(@FormParam("username") String username, @FormParam("key") String key) {
-        Unbestaetigt user = query.getUnbestaetigt(username);
-        if (key.equals(user.getBestaetigungs_schluessel())) {
-            return Response.status(200, "User confirmation successful!").build();
-        }
-        return Response.status(404, "That user can't be found!").build();
+        return null;
     }
 
     /**

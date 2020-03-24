@@ -16,7 +16,6 @@ import javax.ws.rs.core.Response;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.jgrosshardt.jpa.database.Fach;
-import org.jgrosshardt.jpa.database.NeuerNutzer;
 import org.jgrosshardt.jpa.database.Schueler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -82,32 +81,11 @@ public class StundenplanClient implements StundenplanAPI {
 
     protected String token;
 
-    public StundenplanClient() {
-        client = (ResteasyClient) ClientBuilder.newBuilder().build();
-        target = client.target("http://localhost:8080/Stundenplan_Server/stundenplan");
-        proxy = target.proxy(StundenplanAPI.class);
-    }
-
     public StundenplanClient(String username, char[] passwd) {
         client = (ResteasyClient) ClientBuilder.newBuilder().register(new JWTFilter()).build();
         target = client.target("http://localhost:8080/Stundenplan_Server/stundenplan");
         proxy = target.proxy(StundenplanAPI.class);
         token = proxy.authenticateUser(username, new String(passwd));
-    }
-
-    public boolean loggedIn() {
-        return token == null || token.equals("");
-    }
-
-    public boolean authorized() {
-        return echoAuth("Test").equals("Test");
-    }
-
-    @Override
-    public Response registerUser(NeuerNutzer nutzer) {
-        Response response = proxy.registerUser(nutzer);
-        token = proxy.authenticateUser(nutzer.getBenutzername(), nutzer.getPasswort());
-        return response;
     }
 
     @Override
