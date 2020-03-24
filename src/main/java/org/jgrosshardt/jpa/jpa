@@ -1,0 +1,3 @@
+jpa steht für Java Persistence API und ist eine Art der Kommunikation mit einer Datenbank. Das Grundprinzip ist, dass
+man Objekte in Java hat die den Objekten in der Datenbank entsprechen. jpa erleichtert die Zuordnung und Übertragung
+von Datenbankeintrag und Objekt.
