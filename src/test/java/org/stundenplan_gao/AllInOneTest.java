@@ -110,6 +110,7 @@ public class AllInOneTest {
     public void testUpdate() {
         Query.setup();
         Query query = new Query();
+        query.addObject(new Schueler(null, "justus.gross-hardt@gao-online.de", "", "Justus", "Groß-Hardt"));
         Schueler justus = query.getSchueler("jgroßhardt");
         query.updateSchueler(justus.getKurse().toArray(new Kurs[0]), "justus.gross-hardt@gao-online.de");
         justus = query.getSchueler("justus.gross-hardt@gao-online.de");
@@ -125,6 +126,18 @@ public class AllInOneTest {
         justus = query.getSchueler("justus.gross-hardt@gao-online.de");
 
         assertTrue(justus.getKurse().size() > 0);
+    }
+
+    @Test
+    public void testChangePassword() {
+        String password = "12345";
+        client.login("", "".toCharArray());
+        client.registerUser(new NeuerNutzer("test", "test", "test@gao-online.de", password));
+        assertTrue(client.login("test@gao-online.de", password.toCharArray()));
+        client.changePassword("test@gao-online.de", "abcde");
+        assertFalse(client.login("test@gao-online.de", password.toCharArray()));
+        assertTrue(client.login("test@gao-online.de", "abcde".toCharArray()));
+        client.deleteUser("test@gao-online.de");
     }
 
     @Test
@@ -171,10 +184,7 @@ public class AllInOneTest {
         System.err.println(resp.getStatus() + ": " + resp.getStatusInfo().getReasonPhrase());
         resp.close();
 
-        String token = client.login(benutzername, passwort.toCharArray());
-        assertFalse("Login failed", token == null || token.equals(""));
-
-        client.setToken(token);
+        assertTrue("Login failed", client.login(benutzername, passwort.toCharArray()));
 
         response = client.echoAuth(testMsg);
         assertEquals("Message does not match", testMsg, response);
@@ -182,8 +192,8 @@ public class AllInOneTest {
 
     @Test
     public void testDelete() {
-        client.setToken(client.login(benutzername, passwort.toCharArray()));
+        client.login(benutzername, passwort.toCharArray());
         client.deleteUser(benutzername);
-        assertTrue(client.login(benutzername, passwort.toCharArray()).equals(""));
+        assertFalse(client.login(benutzername, passwort.toCharArray()));
     }
 }

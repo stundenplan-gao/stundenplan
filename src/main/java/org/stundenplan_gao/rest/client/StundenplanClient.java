@@ -4,10 +4,8 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.stundenplan_gao.jpa.database.*;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.NotAuthorizedException;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.persistence.OneToMany;
+import javax.ws.rs.*;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -167,21 +165,31 @@ public class StundenplanClient implements StundenplanAPI {
         return proxy.index();
     }
 
-    @GET
-    @Path("/kurse")
-    @Produces({MediaType.APPLICATION_JSON})
+    @Override
     public Kurs[] getKurse() {
         return proxy.getKurse();
     }
 
     @Override
-    public Response storeSchuelerdaten(String benutzername, Kurs[] kurse) {
-        return proxy.storeSchuelerdaten(benutzername, kurse);
+    public Response storeSchuelerdaten(String benutzername, Schueler schueler) {
+        return proxy.storeSchuelerdaten(benutzername, schueler);
+    }
+
+    @Override
+    public Response storeSchuelerKurse(String benutzername, Kurs[] kurse) {
+        return proxy.storeSchuelerKurse(benutzername, kurse);
     }
 
     @Override
     public Entfall[] getEntfaelle() {
         return proxy.getEntfaelle();
+    }
+
+    @PUT
+    @Path("/changepassword/{benutzername}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    public Response changePassword(@PathParam("benutzername") String benutzername, String password) {
+        return proxy.changePassword(benutzername, password);
     }
 
     public void close() {

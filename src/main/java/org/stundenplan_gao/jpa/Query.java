@@ -1,9 +1,6 @@
 package org.stundenplan_gao.jpa;
 
-import org.stundenplan_gao.jpa.database.Kurs;
-import org.stundenplan_gao.jpa.database.Lehrer;
-import org.stundenplan_gao.jpa.database.Schueler;
-import org.stundenplan_gao.jpa.database.Stufe;
+import org.stundenplan_gao.jpa.database.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -53,6 +50,10 @@ public class Query {
         return query("select s from Schueler s where s.benutzername = '" + benutzername.replace("'", "''") + "'", Schueler.class);
     }
 
+    public List<Unbestaetigt> getUnbestaetigtList(String benutzername) {
+        return query("select s from Unbestaetigt u where u.benutzername = '" + benutzername.replace("'", "''") + "'", Unbestaetigt.class);
+    }
+
     public Schueler getSchueler(String benutzername) {
         List<Schueler> schueler = getSchuelerList(benutzername);
 
@@ -63,9 +64,20 @@ public class Query {
         return schueler.get(0);
     }
 
+    public Unbestaetigt getUnbestaetigt(String benutzername) {
+        List<Unbestaetigt> unbestaetigt = getUnbestaetigtList(benutzername);
+
+        if (unbestaetigt.size() != 1) {
+            return null;
+        }
+
+        return unbestaetigt.get(0);
+    }
+
     public boolean usernameTaken(String benutzername) {
         List<Schueler> schueler = getSchuelerList(benutzername);
-        return schueler.size() >= 1;
+        List<Unbestaetigt> unbestaetigt = query("select u from Unbestaetigt u where u.benutzername = '" + benutzername.replace("'", "''") + "'", Unbestaetigt.class);
+        return schueler.size() + unbestaetigt.size() >= 1;
     }
 
     public void deleteUser(String benutzername) {
@@ -126,6 +138,38 @@ public class Query {
         List<Kurs> kursList = Arrays.asList(kurse);
         kursSet.clear();
         kursSet.addAll(kursList);
+        entityManager.getTransaction().commit();
+        return true;
+    }
+
+    public void changePassword(String benutzername, String passwordHash, String salt) {
+        entityManager.getTransaction().begin();
+        Schueler schueler = getSchueler(benutzername);
+        if (schueler == null) {
+            entityManager.getTransaction().rollback();
+            entityManager.getTransaction().begin();
+            Unbestaetigt unbestaetigt = getUnbestaetigt(benutzername);
+            unbestaetigt.setPasswortHash(passwordHash);
+            unbestaetigt.setSalt(salt);
+            entityManager.getTransaction().commit();
+            return;
+        }
+        schueler.setPasswortHash(passwordHash);
+        schueler.setSalt(salt);
+        entityManager.getTransaction().commit();
+        return;
+    }
+
+    public boolean updateSchueler(Schueler schueler) {
+        entityManager.getTransaction().begin();
+        Schueler s = getSchueler(schueler.getBenutzername());
+        if (s == null) {
+            entityManager.getTransaction().rollback();
+            return false;
+        }
+        s.setVorname(schueler.getVorname());
+        s.setNachname(schueler.getNachname());
+        s.setStufe(schueler.getStufe());
         entityManager.getTransaction().commit();
         return true;
     }

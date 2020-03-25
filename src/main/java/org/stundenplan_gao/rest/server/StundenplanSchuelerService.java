@@ -156,9 +156,17 @@ public class StundenplanSchuelerService implements StundenplanAPI {
 
     @PUT
     @Path("/schuelerdaten/{benutzername}")
-    @Produces({ MediaType.APPLICATION_JSON })
+    @Consumes({MediaType.APPLICATION_JSON})
     @JWTUsername
-    public Response storeSchuelerdaten(@PathParam("benutzername") String benutzername, Kurs[] kurse) {
+    public Response storeSchuelerdaten(@PathParam("benutzername") String benutzername, Schueler schueler) {
+        return (query.updateSchueler(schueler) ? Response.status(200) : Response.status(404)).build();
+    }
+
+    @PUT
+    @Path("/schuelerkurse/{benutzername}")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @JWTUsername
+    public Response storeSchuelerKurse(@PathParam("benutzername") String benutzername, Kurs[] kurse) {
         return (query.updateSchueler(kurse, benutzername) ? Response.status(200) : Response.status(404)).build();
     }
 
@@ -177,4 +185,19 @@ public class StundenplanSchuelerService implements StundenplanAPI {
     public Entfall[] getEntfaelle() {
         return query.getAll(Entfall.class);
     }
+
+    @PUT
+    @Path("/changepassword/{benutzername}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @JWTUsername
+    public Response changePassword(@PathParam("benutzername") String benutzername, String password) {
+        if (!query.usernameTaken(benutzername)) {
+            return Response.status(404).build();
+        }
+        String salt = PasswordHash.generateSalt();
+        String passwordHash = PasswordHash.computeHash(new String(password), salt);
+        query.changePassword(benutzername, passwordHash, salt);
+        return Response.status(200).build();
+    }
+
 }
