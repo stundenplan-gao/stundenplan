@@ -104,7 +104,7 @@ public class StundenplanAdminService {
     @Path("/delete/{username}")
     @JWTAdmin
     public Response deleteUser(@PathParam("username") String username) {
-        query.deleteUser("username");
+        query.deleteUser(username);
         return Response.status(200, "User no longer exists!").build();
     }
 
