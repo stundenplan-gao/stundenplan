@@ -131,7 +131,7 @@ public class AllInOneTest {
     @Test
     public void testChangePassword() {
         String password = "12345";
-        client.login("", "".toCharArray());
+        client = new StundenplanClient(URL);
         client.registerUser(new NeuerNutzer("test", "test", "test@gao-online.de", password));
         assertTrue(client.login("test@gao-online.de", password.toCharArray()));
         client.changePassword("test@gao-online.de", "abcde");

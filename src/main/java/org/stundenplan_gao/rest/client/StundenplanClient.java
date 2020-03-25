@@ -103,7 +103,7 @@ public class StundenplanClient implements StundenplanAPI {
     public boolean login(String username, char[] password) {
         String token = proxy.authenticateUser(username, new String(password));
         setToken(token);
-        return token.isEmpty();
+        return !token.isEmpty();
     }
 
     public void setToken(String token) {
