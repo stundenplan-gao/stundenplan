@@ -137,7 +137,7 @@ public class StundenplanAdminService {
     @Produces({MediaType.APPLICATION_JSON})
     @JWTAdmin
     public Kurs[] getKurse() {
-        return query.getAll(Kurs.class);
+        return query.getAll(Kurs.class, new Kurs[0]);
     }
 
     @PUT
@@ -168,7 +168,7 @@ public class StundenplanAdminService {
     @Produces({MediaType.APPLICATION_JSON})
     @JWTAdmin
     public Lehrer[] getLehrer() {
-        return query.getAll(Lehrer.class);
+        return query.getAll(Lehrer.class, new Lehrer[0]);
     }
 
     @PUT
@@ -218,6 +218,6 @@ public class StundenplanAdminService {
     @Produces({MediaType.APPLICATION_JSON})
     @JWTAdmin
     public Schueler[] getSchueler() {
-        return query.getAll(Schueler.class);
+        return query.getAll(Schueler.class, new Schueler[0]);
     }
 }

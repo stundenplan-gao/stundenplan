@@ -95,9 +95,9 @@ public class Query {
         return singleResultQuery("select s from Stufe s where stufe = null", Stufe.class);
     }
 
-    public <T> T[] getAll(Class<T> tClass) {
+    public <T> T[] getAll(Class<T> tClass, T[] tArray) {
         List<T> tList = query("select x from " + tClass.getName() + " x", tClass);
-        return (T[]) tList.toArray();
+        return tList.toArray(tArray);
     }
 
     public void deleteKurs(int id) {

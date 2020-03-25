@@ -175,7 +175,7 @@ public class StundenplanSchuelerService implements StundenplanAPI {
     @Produces({MediaType.APPLICATION_JSON})
     @JWTToken
     public Kurs[] getKurse() {
-        return query.getAll(Kurs.class);
+        return query.getAll(Kurs.class, new Kurs[0]);
     }
 
     @GET
@@ -183,7 +183,7 @@ public class StundenplanSchuelerService implements StundenplanAPI {
     @Produces({ MediaType.APPLICATION_JSON })
     @JWTToken
     public Entfall[] getEntfaelle() {
-        return query.getAll(Entfall.class);
+        return query.getAll(Entfall.class, new Entfall[0]);
     }
 
     @PUT
@@ -206,7 +206,7 @@ public class StundenplanSchuelerService implements StundenplanAPI {
     @Produces({MediaType.APPLICATION_JSON})
     @JWTToken
     public Lehrer[] getLehrer() {
-        return query.getAll(Lehrer.class);
+        return query.getAll(Lehrer.class, new Lehrer[0]);
     }
 
     @GET
@@ -214,6 +214,6 @@ public class StundenplanSchuelerService implements StundenplanAPI {
     @Produces({MediaType.APPLICATION_JSON})
     @JWTToken
     public Stufe[] getStufen() {
-        return query.getAll(Stufe.class);
+        return query.getAll(Stufe.class, new Stufe[0]);
     }
 }

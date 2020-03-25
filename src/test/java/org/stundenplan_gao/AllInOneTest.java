@@ -196,4 +196,15 @@ public class AllInOneTest {
         client.deleteUser(benutzername);
         assertFalse(client.login(benutzername, passwort.toCharArray()));
     }
+
+    @Test
+    public void testGet() {
+        client.login("justus.gross-hardt@gao-online.de", "123".toCharArray());
+        Kurs[] kurse = client.getKurse();
+        assertTrue(kurse.length > 0);
+        Lehrer[] lehrer = client.getLehrer();
+        assertTrue(kurse.length > 0);
+        Stufe[] stufe = client.getStufen();
+        assertTrue(kurse.length > 0);
+    }
 }
