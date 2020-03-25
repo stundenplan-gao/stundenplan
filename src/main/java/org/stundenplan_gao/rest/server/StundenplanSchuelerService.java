@@ -200,4 +200,20 @@ public class StundenplanSchuelerService implements StundenplanAPI {
         return Response.status(200).build();
     }
 
+
+    @GET
+    @Path("/lehrer")
+    @Produces({MediaType.APPLICATION_JSON})
+    @JWTToken
+    public Lehrer[] getLehrer() {
+        return query.getAll(Lehrer.class);
+    }
+
+    @GET
+    @Path("/stufen")
+    @Produces({MediaType.APPLICATION_JSON})
+    @JWTToken
+    public Stufe[] getStufen() {
+        return query.getAll(Stufe.class);
+    }
 }

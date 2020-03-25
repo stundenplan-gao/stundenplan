@@ -79,4 +79,14 @@ public interface StundenplanAPI {
     @Path("/changepassword/{benutzername}")
     @Consumes({MediaType.APPLICATION_JSON})
     Response changePassword(@PathParam("benutzername") String benutzername, String password);
+
+    @GET
+    @Path("/lehrer")
+    @Produces({MediaType.APPLICATION_JSON})
+    Lehrer[] getLehrer();
+
+    @GET
+    @Path("/stufen")
+    @Produces({MediaType.APPLICATION_JSON})
+    Stufe[] getStufen();
 }

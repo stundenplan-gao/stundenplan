@@ -192,6 +192,20 @@ public class StundenplanClient implements StundenplanAPI {
         return proxy.changePassword(benutzername, password);
     }
 
+    @GET
+    @Path("/lehrer")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Lehrer[] getLehrer() {
+        return proxy.getLehrer();
+    }
+
+    @GET
+    @Path("/stufen")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Stufe[] getStufen() {
+        return proxy.getStufen();
+    }
+
     public void close() {
         client.close();
     }
