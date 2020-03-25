@@ -1,10 +1,7 @@
 package org.stundenplan_gao.rest.client;
 
-import org.stundenplan_gao.jpa.database.Fach;
-import org.stundenplan_gao.jpa.database.Kurs;
-import org.stundenplan_gao.jpa.database.NeuerNutzer;
-import org.stundenplan_gao.jpa.database.Schueler;
-import org.stundenplan_gao.rest.JWTFilter.JWTAdmin;
+import org.stundenplan_gao.jpa.database.*;
+import org.stundenplan_gao.rest.JWTFilter.JWTToken;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -56,8 +53,19 @@ public interface StundenplanAPI {
     @Produces({ MediaType.APPLICATION_JSON })
     Schueler getSchuelerMitFaechern(@PathParam("benutzername") String benutzername);
 
+    @PUT
+    @Path("/schuelerdaten/{benutzername}")
+    @Produces({ MediaType.APPLICATION_JSON })
+    Response storeSchuelerdaten(@PathParam("benutzername") String benutzername, Kurs[] kurse);
+
     @GET
     @Path("/kurse")
     @Produces({MediaType.APPLICATION_JSON})
     Kurs[] getKurse();
+
+    @GET
+    @Path("/vertretungsplan")
+    @Produces({ MediaType.APPLICATION_JSON })
+    @JWTToken
+    Entfall[] getEntfaelle();
 }

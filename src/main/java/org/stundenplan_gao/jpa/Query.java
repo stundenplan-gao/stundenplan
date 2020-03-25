@@ -1,14 +1,17 @@
 package org.stundenplan_gao.jpa;
 
-import org.checkerframework.checker.units.qual.K;
-import org.stundenplan_gao.jpa.database.*;
+import org.stundenplan_gao.jpa.database.Kurs;
+import org.stundenplan_gao.jpa.database.Lehrer;
+import org.stundenplan_gao.jpa.database.Schueler;
+import org.stundenplan_gao.jpa.database.Stufe;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-
-import javax.persistence.*;
-import javax.ws.rs.core.Response;
 
 public class Query {
 
@@ -112,13 +115,18 @@ public class Query {
         return (Kurs[]) tList.toArray();
     }
 
-    public void updateSchueler(Kurs[] kurse, String username) {
+    public boolean updateSchueler(Kurs[] kurse, String username) {
         entityManager.getTransaction().begin();
         Schueler s = getSchueler(username);
+        if (s == null) {
+            entityManager.getTransaction().rollback();
+            return false;
+        }
         Set<Kurs> kursSet = s.getKurse();
         List<Kurs> kursList = Arrays.asList(kurse);
         kursSet.clear();
         kursSet.addAll(kursList);
         entityManager.getTransaction().commit();
+        return true;
     }
 }

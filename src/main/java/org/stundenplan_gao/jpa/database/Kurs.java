@@ -1,10 +1,9 @@
 package org.stundenplan_gao.jpa.database;
 
-import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.stundenplan_gao.jpa.database.util.Strings;
 
+import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 

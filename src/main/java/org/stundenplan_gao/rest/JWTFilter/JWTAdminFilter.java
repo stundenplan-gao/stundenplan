@@ -1,15 +1,15 @@
 package org.stundenplan_gao.rest.JWTFilter;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SignatureException;
 
+import javax.annotation.Priority;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
-
-import javax.annotation.Priority;
 import java.io.IOException;
 
 @Provider

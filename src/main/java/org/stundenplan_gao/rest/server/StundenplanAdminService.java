@@ -1,16 +1,16 @@
 package org.stundenplan_gao.rest.server;
 
+import org.stundenplan_gao.jpa.Query;
+import org.stundenplan_gao.jpa.database.Fach;
+import org.stundenplan_gao.jpa.database.Kurs;
+import org.stundenplan_gao.jpa.database.Lehrer;
+import org.stundenplan_gao.jpa.database.Schueler;
+import org.stundenplan_gao.rest.JWTFilter.JWT;
+import org.stundenplan_gao.rest.JWTFilter.JWTAdmin;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import org.stundenplan_gao.jpa.Query;
-import org.stundenplan_gao.jpa.database.*;
-import org.stundenplan_gao.rest.JWTFilter.JWT;
-import org.stundenplan_gao.rest.JWTFilter.JWTAdmin;
-import org.stundenplan_gao.rest.JWTFilter.JWTToken;
-import org.stundenplan_gao.rest.JWTFilter.JWTUsername;
-
 import java.util.List;
 
 @Path("/admin")

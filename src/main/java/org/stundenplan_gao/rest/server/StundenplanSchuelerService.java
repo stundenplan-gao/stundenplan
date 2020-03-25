@@ -1,21 +1,19 @@
 package org.stundenplan_gao.rest.server;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import org.hibernate.dialect.lock.PessimisticEntityLockException;
 import org.stundenplan_gao.jpa.Query;
 import org.stundenplan_gao.jpa.database.*;
 import org.stundenplan_gao.rest.JWTFilter.JWT;
-import org.stundenplan_gao.rest.JWTFilter.JWTAdmin;
 import org.stundenplan_gao.rest.JWTFilter.JWTToken;
 import org.stundenplan_gao.rest.JWTFilter.JWTUsername;
+import org.stundenplan_gao.rest.client.StundenplanAPI;
 
-import java.util.*;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/schueler")
-public class StundenplanSchuelerService {
+public class StundenplanSchuelerService implements StundenplanAPI {
 
     static {
         Query.setup();
@@ -131,7 +129,6 @@ public class StundenplanSchuelerService {
     @GET
     @Path("/faecherauswahl")
     @Produces({ MediaType.APPLICATION_JSON })
-    //@JWTTokenNeeded
     public Fach[] getFaecherList() {
         //Retrieve a List of all subjects from the database
         List<Fach> results = query.query("select f from Fach f", Fach.class);
@@ -162,8 +159,7 @@ public class StundenplanSchuelerService {
     @Produces({ MediaType.APPLICATION_JSON })
     @JWTUsername
     public Response storeSchuelerdaten(@PathParam("benutzername") String benutzername, Kurs[] kurse) {
-        query.updateSchueler(kurse, benutzername);
-        return (true ? Response.status(200) : Response.status(409)).build();
+        return (query.updateSchueler(kurse, benutzername) ? Response.status(200) : Response.status(404)).build();
     }
 
     @GET
