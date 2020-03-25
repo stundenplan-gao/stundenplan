@@ -23,7 +23,7 @@
         <setting name="validation-enabled" value="true" />
         <datasource-mapping>
           <factory-entry name="stundenplan" />
-          <factory-entry name="stundenplan-test" />
+          <factory-entry name="stundenplan-test" value="64b6060e-d18f-44eb-8d0b-93c893029593" />
         </datasource-mapping>
         <naming-strategy-map />
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />

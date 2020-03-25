@@ -3,7 +3,10 @@ package org.stundenplan_gao.rest.client;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.NotAuthorizedException;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientRequestFilter;
@@ -14,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.stundenplan_gao.jpa.database.Fach;
+import org.stundenplan_gao.jpa.database.Kurs;
 import org.stundenplan_gao.jpa.database.NeuerNutzer;
 import org.stundenplan_gao.jpa.database.Schueler;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
@@ -21,6 +25,7 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.stundenplan_gao.rest.JWTFilter.JWTAdmin;
 
 public class StundenplanClient implements StundenplanAPI {
 
@@ -171,6 +176,13 @@ public class StundenplanClient implements StundenplanAPI {
     @Override
     public Response index() {
         return proxy.index();
+    }
+
+    @GET
+    @Path("/kurse")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Kurs[] getKurse() {
+        return proxy.getKurse();
     }
 
     public void close() {

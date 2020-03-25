@@ -14,6 +14,7 @@
 		<class>org.stundenplan_gao.jpa.database.Stufe</class>
 		<class>org.stundenplan_gao.jpa.database.Stunde</class>
 		<class>org.stundenplan_gao.jpa.database.Unbestaetigt</class>
+		<class>org.stundenplan_gao.jpa.database.Entfall</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver" />
@@ -43,6 +44,7 @@
 		<class>org.stundenplan_gao.jpa.database.Stufe</class>
 		<class>org.stundenplan_gao.jpa.database.Stunde</class>
 		<class>org.stundenplan_gao.jpa.database.Unbestaetigt</class>
+		<class>org.stundenplan_gao.jpa.database.Entfall</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver" />

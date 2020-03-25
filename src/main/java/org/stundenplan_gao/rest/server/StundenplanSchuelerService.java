@@ -4,13 +4,15 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.hibernate.dialect.lock.PessimisticEntityLockException;
 import org.stundenplan_gao.jpa.Query;
 import org.stundenplan_gao.jpa.database.*;
 import org.stundenplan_gao.rest.JWTFilter.JWT;
+import org.stundenplan_gao.rest.JWTFilter.JWTAdmin;
 import org.stundenplan_gao.rest.JWTFilter.JWTToken;
 import org.stundenplan_gao.rest.JWTFilter.JWTUsername;
 
-import java.util.List;
+import java.util.*;
 
 @Path("/schueler")
 public class StundenplanSchuelerService {
@@ -146,12 +148,37 @@ public class StundenplanSchuelerService {
     @GET
     @Path("/schuelerdaten/{benutzername}")
     @Produces({ MediaType.APPLICATION_JSON })
-    @JWTToken
+    @JWTUsername
     public Schueler getSchuelerMitFaechern(@PathParam("benutzername") String benutzername) {
 
         Schueler schueler = query.getSchueler(benutzername);
         System.err.println(schueler.toFullString());
         // return the user
         return schueler;
+    }
+
+    @PUT
+    @Path("/schuelerdaten/{benutzername}")
+    @Produces({ MediaType.APPLICATION_JSON })
+    @JWTUsername
+    public Response storeSchuelerdaten(@PathParam("benutzername") String benutzername, Kurs[] kurse) {
+        query.updateSchueler(kurse, benutzername);
+        return (true ? Response.status(200) : Response.status(409)).build();
+    }
+
+    @GET
+    @Path("/kurse")
+    @Produces({MediaType.APPLICATION_JSON})
+    @JWTToken
+    public Kurs[] getKurse() {
+        return query.getAll(Kurs.class);
+    }
+
+    @GET
+    @Path("/vertretungsplan")
+    @Produces({ MediaType.APPLICATION_JSON })
+    @JWTToken
+    public Entfall[] getEntfaelle() {
+        return query.getAll(Entfall.class);
     }
 }

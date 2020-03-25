@@ -21,6 +21,10 @@ public class Stunde {
     @JsonIgnore
     private Set<Kurs> kurse;
 
+    @OneToMany(mappedBy = "stunde", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Entfall> entfaelle;
+
     public Stunde() {
     }
 

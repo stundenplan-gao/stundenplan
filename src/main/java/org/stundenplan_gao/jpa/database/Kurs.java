@@ -30,6 +30,10 @@ public class Kurs {
     @JoinColumn(name = "lehrerId")
     private Lehrer lehrer;
 
+    @OneToMany(mappedBy = "kurs", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Entfall> entfaelle;
+
     @ManyToMany(mappedBy = "kurse", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Schueler> schueler;
@@ -45,11 +49,12 @@ public class Kurs {
     public Kurs() {
     }
 
-    public Kurs(String bezeichnung, Fach fach, Stufe stufe, Lehrer lehrer) {
+    public Kurs(String bezeichnung, Fach fach, Stufe stufe, Lehrer lehrer, Set<Entfall> entfaelle) {
         this.bezeichnung = bezeichnung;
         this.fach = fach;
         this.stufe = stufe;
         this.lehrer = lehrer;
+        this.entfaelle = entfaelle;
     }
 
     public Integer getId() {

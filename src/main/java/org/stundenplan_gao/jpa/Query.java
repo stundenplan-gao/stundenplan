@@ -1,11 +1,11 @@
 package org.stundenplan_gao.jpa;
 
-import org.stundenplan_gao.jpa.database.Fach;
-import org.stundenplan_gao.jpa.database.Kurs;
-import org.stundenplan_gao.jpa.database.Schueler;
-import org.stundenplan_gao.jpa.database.Stufe;
+import org.checkerframework.checker.units.qual.K;
+import org.stundenplan_gao.jpa.database.*;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 import javax.ws.rs.core.Response;
@@ -83,5 +83,42 @@ public class Query {
     public <T> T[] getAll(Class<T> tClass) {
         List<T> tList = query("select x from " + tClass.getName() + " x", tClass);
         return (T[]) tList.toArray();
+    }
+
+    public void deleteKurs(int id) {
+        List<Kurs> kurse = query("select Kurs k from k where id = " + id, Kurs.class);
+        if (kurse != null) {
+            entityManager.getTransaction().begin();
+            for (Kurs k : kurse) {
+                entityManager.remove(k);
+            }
+            entityManager.getTransaction().commit();
+        }
+    }
+
+    public void deleteLehrer(int id) {
+        List<Lehrer> lehrer = query("select Lehrer l from l where id = " + id, Lehrer.class);
+        if (lehrer != null) {
+            entityManager.getTransaction().begin();
+            for (Lehrer l : lehrer) {
+                entityManager.remove(l);
+            }
+            entityManager.getTransaction().commit();
+        }
+    }
+
+    public Kurs[] ausfallendeKurse() {
+        List<Kurs> tList = query("select k from Kurs k where id = ", Kurs.class);
+        return (Kurs[]) tList.toArray();
+    }
+
+    public void updateSchueler(Kurs[] kurse, String username) {
+        entityManager.getTransaction().begin();
+        Schueler s = getSchueler(username);
+        Set<Kurs> kursSet = s.getKurse();
+        List<Kurs> kursList = Arrays.asList(kurse);
+        kursSet.clear();
+        kursSet.addAll(kursList);
+        entityManager.getTransaction().commit();
     }
 }

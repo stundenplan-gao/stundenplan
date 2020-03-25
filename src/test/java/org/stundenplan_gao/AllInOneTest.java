@@ -2,6 +2,7 @@ package org.stundenplan_gao;
 
 import io.jsonwebtoken.Claims;
 import org.junit.Test;
+import org.stundenplan_gao.jpa.Query;
 import org.stundenplan_gao.jpa.database.*;
 import org.stundenplan_gao.rest.JWTFilter.JWT;
 import org.stundenplan_gao.rest.client.StundenplanClient;
@@ -12,6 +13,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.core.Response;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -104,7 +106,26 @@ public class AllInOneTest {
         }
     }
 
+    @Test
+    public void testUpdate() {
+        Query.setup();
+        Query query = new Query();
+        Schueler justus = query.getSchueler("jgroßhardt");
+        query.updateSchueler(justus.getKurse().toArray(new Kurs[0]), "justus.gross-hardt@gao-online.de");
+        justus = query.getSchueler("justus.gross-hardt@gao-online.de");
 
+        assertTrue(justus.getKurse().size() > 0);
+
+        query.updateSchueler(new Kurs[0], "justus.gross-hardt@gao-online.de");
+        justus = query.getSchueler("justus.gross-hardt@gao-online.de");
+
+        assertFalse(justus.getKurse().size() > 0);
+
+        query.updateSchueler(query.getSchueler("jgroßhardt").getKurse().toArray(new Kurs[0]), "justus.gross-hardt@gao-online.de");
+        justus = query.getSchueler("justus.gross-hardt@gao-online.de");
+
+        assertTrue(justus.getKurse().size() > 0);
+    }
 
     @Test
     public void testHash() {

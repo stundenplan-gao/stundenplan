@@ -101,7 +101,7 @@ public class StundenplanAdminService {
     private static final boolean confirmationRequired = false;
 
     @DELETE
-    @Path("/delete/{username}")
+    @Path("/schueler/{username}")
     @JWTAdmin
     public Response deleteUser(@PathParam("username") String username) {
         query.deleteUser(username);
@@ -152,13 +152,14 @@ public class StundenplanAdminService {
     @Path("/kurs/{kursId}")
     @JWTAdmin
     public Response deleteKurs(@PathParam("kursId") String kursId) {
+        int id;
         try {
-            int id = Integer.decode(kursId);
+            id = Integer.decode(kursId);
         } catch (NumberFormatException e) {
             e.printStackTrace();
             return Response.status(400).build();
         }
-        //TODO fix please, forgot what's broken
+        query.deleteKurs(id);
         return Response.status(200).build();
     }
 
@@ -178,15 +179,45 @@ public class StundenplanAdminService {
         return (query.addObject(lehrer) ? Response.status(200) : Response.status(409)).build();
     }
 
+    @DELETE
+    @Path("/lehrer/{lehrerId}")
+    @JWTAdmin
+    public Response deleteLehrer(@PathParam("lehrerId") String lehrerId) {
+        int id;
+        try {
+            id = Integer.decode(lehrerId);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return Response.status(400).build();
+        }
+        query.deleteLehrer(id);
+        return Response.status(200).build();
+    }
+
     @GET
     @Path("/schuelerdaten/{benutzername}")
     @Produces({ MediaType.APPLICATION_JSON })
-    @JWTToken
+    @JWTAdmin
     public Schueler getSchuelerMitFaechern(@PathParam("benutzername") String benutzername) {
-
         Schueler schueler = query.getSchueler(benutzername);
         System.err.println(schueler.toFullString());
         //return the user
         return schueler;
+    }
+
+    @PUT
+    @Path("/schueler")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @JWTAdmin
+    public Response addSchueler(Schueler schueler) {
+        return (query.addObject(schueler) ? Response.status(200) : Response.status(409)).build();
+    }
+
+    @GET
+    @Path("/schueler/all")
+    @Produces({MediaType.APPLICATION_JSON})
+    @JWTAdmin
+    public Schueler[] getSchueler() {
+        return query.getAll(Schueler.class);
     }
 }
