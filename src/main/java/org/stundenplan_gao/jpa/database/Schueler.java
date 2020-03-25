@@ -1,5 +1,6 @@
 package org.stundenplan_gao.jpa.database;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.stundenplan_gao.rest.server.PasswordHash;
 
 import javax.persistence.*;
@@ -21,8 +22,10 @@ public class Schueler {
     private String benutzername;
 
     @Column(name = "passwort")
+    @JsonIgnore
     private String passwortHash;
 
+    @JsonIgnore
     private String salt;
     private String vorname;
     private String nachname;
@@ -138,11 +141,11 @@ public class Schueler {
     }
 
     public String toFullString() {
-        String header = vorname + " " + nachname + ", " + stufe.getStufe() + " (" + benutzername + "," + passwortHash + ")\n";
+        StringBuilder header = new StringBuilder(vorname + " " + nachname + ", " + stufe.getStufe() + " (" + benutzername + "," + passwortHash + ")\n");
         for (Kurs kurs : kurse) {
-            header += "----------------------\n" + kurs + "\n";
+            header.append("----------------------\n").append(kurs).append("\n");
         }
-        return header;
+        return header.toString();
     }
 
     @Override
