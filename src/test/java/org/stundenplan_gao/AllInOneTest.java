@@ -203,8 +203,8 @@ public class AllInOneTest {
         Kurs[] kurse = client.getKurse();
         assertTrue(kurse.length > 0);
         Lehrer[] lehrer = client.getLehrer();
-        assertTrue(kurse.length > 0);
+        assertTrue(lehrer.length > 0);
         Stufe[] stufe = client.getStufen();
-        assertTrue(kurse.length > 0);
+        assertTrue(stufe.length > 0);
     }
 }
