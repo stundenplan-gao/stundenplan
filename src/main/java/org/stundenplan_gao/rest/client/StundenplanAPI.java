@@ -72,7 +72,6 @@ public interface StundenplanAPI {
     @GET
     @Path("/vertretungsplan")
     @Produces({ MediaType.APPLICATION_JSON })
-    @JWTToken
     Entfall[] getEntfaelle();
 
     @PUT
