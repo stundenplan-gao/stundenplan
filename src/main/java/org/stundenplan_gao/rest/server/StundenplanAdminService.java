@@ -101,7 +101,7 @@ public class StundenplanAdminService {
     private static final boolean confirmationRequired = false;
 
     @DELETE
-    @Path("/delete/${username}")
+    @Path("/delete/{username}")
     @JWTAdmin
     public Response deleteUser(@PathParam("username") String username) {
         query.deleteUser("username");
@@ -149,7 +149,7 @@ public class StundenplanAdminService {
     }
 
     @DELETE
-    @Path("/kurs/${kursId}")
+    @Path("/kurs/{kursId}")
     @JWTAdmin
     public Response deleteKurs(@PathParam("kursId") String kursId) {
         try {
@@ -179,7 +179,7 @@ public class StundenplanAdminService {
     }
 
     @GET
-    @Path("/schuelerdaten/${benutzername}")
+    @Path("/schuelerdaten/{benutzername}")
     @Produces({ MediaType.APPLICATION_JSON })
     @JWTToken
     public Schueler getSchuelerMitFaechern(@PathParam("benutzername") String benutzername) {

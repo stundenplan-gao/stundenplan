@@ -41,7 +41,7 @@ public interface StundenplanAPI {
     Response registerUser(NeuerNutzer nutzer);
 
     @DELETE
-    @Path("/delete/${username}")
+    @Path("/delete/{username}")
     Response deleteUser(@PathParam("username") String username);
 
     @GET
@@ -50,7 +50,7 @@ public interface StundenplanAPI {
     Fach[] getFaecherList();
 
     @GET
-    @Path("/schuelerdaten/${benutzername}")
+    @Path("/schuelerdaten/{benutzername}")
     @Produces({ MediaType.APPLICATION_JSON })
     Schueler getSchuelerMitFaechern(@PathParam("benutzername") String benutzername);
 }

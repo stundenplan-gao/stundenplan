@@ -112,10 +112,10 @@ public class StundenplanSchuelerService {
     }
 
     @DELETE
-    @Path("/delete/${username}")
+    @Path("/delete/{username}")
     @JWTUsername
     public Response deleteUser(@PathParam("username") String username) {
-        query.deleteUser("username");
+        query.deleteUser(username);
         return Response.status(200, "User no longer exists!").build();
     }
 
@@ -144,7 +144,7 @@ public class StundenplanSchuelerService {
     }
 
     @GET
-    @Path("/schuelerdaten/${benutzername}")
+    @Path("/schuelerdaten/{benutzername}")
     @Produces({ MediaType.APPLICATION_JSON })
     @JWTToken
     public Schueler getSchuelerMitFaechern(@PathParam("benutzername") String benutzername) {

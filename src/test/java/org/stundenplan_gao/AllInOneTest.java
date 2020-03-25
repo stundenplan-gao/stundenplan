@@ -161,6 +161,7 @@ public class AllInOneTest {
 
     @Test
     public void testDelete() {
+        client.setToken(client.login(benutzername, passwort.toCharArray()));
         client.deleteUser(benutzername);
         assertTrue(client.login(benutzername, passwort.toCharArray()).equals(""));
     }

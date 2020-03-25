@@ -28,7 +28,7 @@ public class JWTUsernameFilter implements ContainerRequestFilter {
         if (path.endsWith("/")) {
             path = path.substring(0, path.length() - 1);
         }
-        String userID = path.substring(path.lastIndexOf('/'));
+        String userID = path.substring(path.lastIndexOf('/') + 1);
 
         //Decode the authorizationHeader and check it
         try {
