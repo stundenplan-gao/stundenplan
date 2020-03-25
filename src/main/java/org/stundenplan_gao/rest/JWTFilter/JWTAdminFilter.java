@@ -13,7 +13,7 @@ import javax.annotation.Priority;
 import java.io.IOException;
 
 @Provider
-@JWTTokenNeeded
+@JWTToken
 @Priority(Priorities.AUTHENTICATION)
 public class JWTAdminFilter implements ContainerRequestFilter {
 

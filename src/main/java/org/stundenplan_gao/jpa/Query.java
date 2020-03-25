@@ -1,14 +1,14 @@
 package org.stundenplan_gao.jpa;
+
 import org.stundenplan_gao.jpa.database.Fach;
+import org.stundenplan_gao.jpa.database.Kurs;
 import org.stundenplan_gao.jpa.database.Schueler;
 import org.stundenplan_gao.jpa.database.Stufe;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
+import javax.ws.rs.core.Response;
 
 public class Query {
 
@@ -34,10 +34,16 @@ public class Query {
     }
 
 
-    public void persist(Object obj) {
-        entityManager.getTransaction().begin();
-        entityManager.persist(obj);
-        entityManager.getTransaction().commit();
+    public boolean addObject(Object obj) {
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(obj);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public List<Schueler> getSchuelerList(String benutzername) {
@@ -72,5 +78,10 @@ public class Query {
 
     public Stufe getNullStufe() {
         return singleResultQuery("select s from Stufe s where stufe = null", Stufe.class);
+    }
+
+    public <T> T[] getAll(Class<T> tClass) {
+        List<T> tList = query("select x from " + tClass.getName() + " x", tClass);
+        return (T[]) tList.toArray();
     }
 }

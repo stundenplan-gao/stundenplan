@@ -55,4 +55,16 @@ public class PasswordHash {
     public static String bytesToBase64(byte[] bytes) {
         return Base64.getUrlEncoder().encodeToString(bytes);
     }
+
+    public static void main(String[] args) {
+        String password;
+        if (args.length > 0) {
+            password = args[0];
+        } else {
+            password = "password";
+        }
+        String salt = PasswordHash.generateSalt();
+        System.out.println(PasswordHash.computeHash(password, salt));
+        System.out.println(salt);
+    }
 }

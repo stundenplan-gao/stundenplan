@@ -1,13 +1,12 @@
 package org.stundenplan_gao.rest.client;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 import org.stundenplan_gao.jpa.database.Fach;
 import org.stundenplan_gao.jpa.database.NeuerNutzer;
 import org.stundenplan_gao.jpa.database.Schueler;
-import org.stundenplan_gao.rest.JWTFilter.JWTUserAuthNeeded;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path("/schueler")
 public interface StundenplanAPI {
@@ -43,7 +42,6 @@ public interface StundenplanAPI {
 
     @DELETE
     @Path("/delete/${username}")
-    @JWTUserAuthNeeded
     Response deleteUser(@PathParam("username") String username);
 
     @GET

@@ -13,11 +13,11 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.jboss.resteasy.client.jaxrs.ResteasyClient;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.stundenplan_gao.jpa.database.Fach;
 import org.stundenplan_gao.jpa.database.NeuerNutzer;
 import org.stundenplan_gao.jpa.database.Schueler;
+import org.jboss.resteasy.client.jaxrs.ResteasyClient;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -55,7 +55,7 @@ public class StundenplanClient implements StundenplanAPI {
     }
 
     public static void main(String... args) {
-        StundenplanClient c = new StundenplanClient("ysprenger", "ysprenger".toCharArray(), "http://localhost:8080/Stundenplan_Server/stundenplan");
+        StundenplanClient c = new StundenplanClient("ysprenger", "ysprenger".toCharArray(), "http://localhost:8080/stundenplan_srver/stundenplan");
         System.err.println(c.echo("Testmessage"));
         try {
             System.err.println(c.echoAuth("Testmessage"));

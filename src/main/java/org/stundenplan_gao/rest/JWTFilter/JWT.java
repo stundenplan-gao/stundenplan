@@ -22,7 +22,7 @@ public class JWT {
     }
 
     //construct a JWT
-    public static String createJWT(String issuer, String subject, long ttlMillis, boolean schueler) {
+    public static String createJWT(String issuer, String subject, long ttlMillis, boolean admin) {
 
         //The JWT signature algorithm we will be using to sign the token
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
@@ -38,7 +38,7 @@ public class JWT {
         JwtBuilder builder = Jwts.builder().setIssuedAt(now)
                 .setSubject(subject)
                 .setIssuer(issuer)
-                .claim("schueler", schueler)
+                .claim("admin", admin)
                 .signWith(signatureAlgorithm, signingKey);
 
         //if it has been specified, let's add the expiration

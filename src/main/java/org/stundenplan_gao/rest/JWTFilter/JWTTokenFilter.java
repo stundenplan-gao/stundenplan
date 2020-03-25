@@ -1,6 +1,5 @@
 package org.stundenplan_gao.rest.JWTFilter;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SignatureException;
 
 import javax.ws.rs.Priorities;
@@ -14,9 +13,9 @@ import javax.annotation.Priority;
 import java.io.IOException;
 
 @Provider
-@JWTUserAuthNeeded
+@JWTToken
 @Priority(Priorities.AUTHENTICATION)
-public class JWTUserAuthNeededFilter implements ContainerRequestFilter {
+public class JWTTokenFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext context) throws IOException {
@@ -24,18 +23,9 @@ public class JWTUserAuthNeededFilter implements ContainerRequestFilter {
         // Get the HTTP Authorization header from the request
         String authorizationHeader = context.getHeaderString(HttpHeaders.AUTHORIZATION);
 
-        String path = context.getUriInfo().getPath();
-        if (path.endsWith("/")) {
-            path = path.substring(0, path.length() - 1);
-        }
-        String userID = path.substring(path.lastIndexOf('/'));
-
         //Decode the authorizationHeader and check it
         try {
-            Claims claims = JWT.decodeJWT(authorizationHeader);
-            if (!userID.equals(claims.get(Claims.SUBJECT))) {
-                context.abortWith(Response.status(Response.Status.FORBIDDEN).build());
-            }
+            JWT.decodeJWT(authorizationHeader);
         } catch (SignatureException e) {
             context.abortWith(Response.status(Response.Status.FORBIDDEN).build());
         } catch (IllegalArgumentException e) {
