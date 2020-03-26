@@ -10,6 +10,8 @@ import org.stundenplan_gao.rest.client.StundenplanAPI;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 @Path("/schueler")
@@ -106,6 +108,7 @@ public class StundenplanSchuelerService implements StundenplanAPI {
         } else {
             Stufe empty = query.getNullStufe();
             Schueler schueler = new Schueler(nutzer, empty);
+            schueler.setKurse(new HashSet<>());
             query.addObject(schueler);
         }
         return Response.status(200).build();
