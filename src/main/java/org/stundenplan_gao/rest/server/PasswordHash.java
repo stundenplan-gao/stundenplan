@@ -11,7 +11,7 @@ public class PasswordHash {
      *
      * @param password the password to hash
      * @param salt the salt to add to the password
-     * @return
+     * @return base64 encoded Hash
      */
     public static String computeHash(String password, String salt) {
         //Convert the password to a byte array
@@ -61,7 +61,7 @@ public class PasswordHash {
         if (args.length > 0) {
             password = args[0];
         } else {
-            password = "password";
+            password = "tgoetzke";
         }
         String salt = PasswordHash.generateSalt();
         System.out.println(PasswordHash.computeHash(password, salt));
